@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Elm is kewl!</title>
+    <style>
+    .elm-div{
+      background: orange;
+    }
+    .banner {
+      font-size: 2em;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="hello-world"></div>
+    <script src="js/anotherHello.js"></script>
+    <script>
+      const myDiv = document.getElementById("hello-world");
+      const app = Elm.HelloTwo.init({ node: myDiv });
+    </script>
+  </body>
+</html>
