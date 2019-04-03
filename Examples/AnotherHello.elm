@@ -7,8 +7,10 @@ checkStatus : Int -> String
 checkStatus status =
     if status == 200 then
         "you got it, dude"
+
     else if status == 404 then
         "page not found"
+
     else
         "unknown ereponse"
 
@@ -21,7 +23,20 @@ statusChecks =
     ]
 
 
+renderList : List String -> Html msg
+renderList lst =
+    lst
+        |> List.map (\l -> li [] [ text l ])
+        |> ul []
+
+
+createLi : String -> Html msg
+createLi str =
+    li [] [ text str ]
+
+
 main =
-    statusChecks
-        |> List.foldl (\n str -> str ++ n) ""
-        |> text
+    div []
+        [ h1 [] [ text "List of statuses:" ]
+        , renderList statusChecks
+        ]
