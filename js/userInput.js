@@ -4310,7 +4310,17 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$ArchitectedHello$init = {size: 1, text: 'hello world'};
+var author$project$UserInput$init = {text: ''};
+var author$project$UserInput$update = F2(
+	function (msg, model) {
+		var txt = msg.a;
+		return _Utils_update(
+			model,
+			{text: txt});
+	});
+var author$project$UserInput$Text = function (a) {
+	return {$: 'Text', a: a};
+};
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -4392,59 +4402,11 @@ var elm$core$Set$toList = function (_n0) {
 	return elm$core$Dict$keys(dict);
 };
 var elm$core$Basics$lt = _Utils_lt;
-var elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
 };
 var elm$core$Maybe$Nothing = {$: 'Nothing'};
-var elm$core$String$slice = _String_slice;
-var elm$core$String$dropRight = F2(
-	function (n, string) {
-		return (n < 1) ? string : A3(elm$core$String$slice, 0, -n, string);
-	});
-var elm$core$String$endsWith = _String_endsWith;
-var author$project$ArchitectedHello$exclChecker = function (txt) {
-	return A2(elm$core$String$endsWith, '!', txt) ? A2(elm$core$String$dropRight, 1, txt) : txt;
-};
-var elm$core$Basics$le = _Utils_le;
-var elm$core$Basics$sub = _Basics_sub;
-var author$project$ArchitectedHello$sizeChecker = function (size) {
-	return (size <= 1) ? size : (size - 1);
-};
-var elm$core$Basics$add = _Basics_add;
-var elm$core$Basics$append = _Utils_append;
-var author$project$ArchitectedHello$update = F2(
-	function (msg, model) {
-		switch (msg.$) {
-			case 'Text':
-				return _Utils_update(
-					model,
-					{text: model.text + '!'});
-			case 'SizeUp':
-				return _Utils_update(
-					model,
-					{size: model.size + 1});
-			case 'SizeDown':
-				return _Utils_update(
-					model,
-					{
-						size: author$project$ArchitectedHello$sizeChecker(model.size)
-					});
-			default:
-				return _Utils_update(
-					model,
-					{
-						text: author$project$ArchitectedHello$exclChecker(model.text)
-					});
-		}
-	});
-var author$project$ArchitectedHello$RemoveExcl = {$: 'RemoveExcl'};
-var author$project$ArchitectedHello$SizeDown = {$: 'SizeDown'};
-var author$project$ArchitectedHello$SizeUp = {$: 'SizeUp'};
-var author$project$ArchitectedHello$Text = {$: 'Text'};
-var elm$core$String$fromInt = _String_fromNumber;
+var elm$core$String$length = _String_length;
 var elm$core$Basics$identity = function (x) {
 	return x;
 };
@@ -4549,6 +4511,7 @@ var elm$core$Array$treeFromBuilder = F2(
 			}
 		}
 	});
+var elm$core$Basics$add = _Basics_add;
 var elm$core$Basics$apL = F2(
 	function (f, x) {
 		return f(x);
@@ -4560,6 +4523,7 @@ var elm$core$Basics$max = F2(
 		return (_Utils_cmp(x, y) > 0) ? x : y;
 	});
 var elm$core$Basics$mul = _Basics_mul;
+var elm$core$Basics$sub = _Basics_sub;
 var elm$core$Elm$JsArray$length = _JsArray_length;
 var elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
@@ -4612,6 +4576,7 @@ var elm$core$Array$initializeHelp = F5(
 			}
 		}
 	});
+var elm$core$Basics$le = _Utils_le;
 var elm$core$Basics$remainderBy = _Basics_remainderBy;
 var elm$core$Array$initialize = F2(
 	function (len, fn) {
@@ -4646,6 +4611,7 @@ var elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 'OneOf', a: a};
 };
 var elm$core$Basics$and = _Basics_and;
+var elm$core$Basics$append = _Utils_append;
 var elm$core$Basics$or = _Basics_or;
 var elm$core$Char$toCode = _Char_toCode;
 var elm$core$Char$isLower = function (_char) {
@@ -4710,6 +4676,7 @@ var elm$core$List$indexedMap = F2(
 			xs);
 	});
 var elm$core$String$all = _String_all;
+var elm$core$String$fromInt = _String_fromNumber;
 var elm$core$String$join = F2(
 	function (sep, chunks) {
 		return A2(
@@ -4850,118 +4817,40 @@ var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 };
 var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
-var author$project$ArchitectedHello$myStyle = function (size) {
-	return A2(
-		elm$html$Html$Attributes$style,
-		'fontSize',
-		elm$core$String$fromInt(size) + 'em');
+var author$project$UserInput$adjustSize = function (_n0) {
+	var text = _n0.text;
+	var _n1 = (elm$core$String$length(text) < 8) ? _Utils_Tuple2('20em', 'goldenrod') : _Utils_Tuple2('10em', 'seashell');
+	var size = _n1.a;
+	var color = _n1.b;
+	return A2(elm$html$Html$Attributes$style, 'fontSize', size);
 };
-var elm$html$Html$button = _VirtualDom_node('button');
 var elm$html$Html$div = _VirtualDom_node('div');
+var elm$html$Html$input = _VirtualDom_node('input');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 'Normal', a: a};
+var elm$json$Json$Encode$string = _Json_wrap;
+var elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			elm$json$Json$Encode$string(string));
+	});
+var elm$html$Html$Attributes$placeholder = elm$html$Html$Attributes$stringProperty('placeholder');
+var elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
 };
 var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var elm$html$Html$Events$on = F2(
+var elm$html$Html$Events$stopPropagationOn = F2(
 	function (event, decoder) {
 		return A2(
 			elm$virtual_dom$VirtualDom$on,
 			event,
-			elm$virtual_dom$VirtualDom$Normal(decoder));
+			elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
 	});
-var elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		elm$html$Html$Events$on,
-		'click',
-		elm$json$Json$Decode$succeed(msg));
-};
-var author$project$ArchitectedHello$view = function (model) {
-	return A2(
-		elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				elm$html$Html$div,
-				_List_fromArray(
-					[
-						author$project$ArchitectedHello$myStyle(model.size)
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text(model.text)
-					])),
-				A2(
-				elm$html$Html$button,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onClick(author$project$ArchitectedHello$Text)
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('add exclamation mark')
-					])),
-				A2(
-				elm$html$Html$button,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onClick(author$project$ArchitectedHello$RemoveExcl)
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('Remove excl mark')
-					])),
-				A2(
-				elm$html$Html$button,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onClick(author$project$ArchitectedHello$SizeUp)
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('+')
-					])),
-				A2(
-				elm$html$Html$button,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onClick(author$project$ArchitectedHello$SizeDown)
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('-')
-					]))
-			]));
-};
-var elm$core$Platform$Cmd$batch = _Platform_batch;
-var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
-var elm$core$Platform$Sub$batch = _Platform_batch;
-var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
-var elm$browser$Browser$External = function (a) {
-	return {$: 'External', a: a};
-};
-var elm$browser$Browser$Internal = function (a) {
-	return {$: 'Internal', a: a};
-};
-var elm$browser$Browser$Dom$NotFound = function (a) {
-	return {$: 'NotFound', a: a};
-};
-var elm$core$Basics$never = function (_n0) {
-	never:
-	while (true) {
-		var nvr = _n0.a;
-		var $temp$_n0 = nvr;
-		_n0 = $temp$_n0;
-		continue never;
-	}
-};
-var elm$core$Task$Perform = function (a) {
-	return {$: 'Perform', a: a};
-};
-var elm$core$Task$succeed = _Scheduler_succeed;
-var elm$core$Task$init = elm$core$Task$succeed(_Utils_Tuple0);
 var elm$core$List$foldrHelper = F4(
 	function (fn, acc, ctr, ls) {
 		if (!ls.b) {
@@ -5017,6 +4906,79 @@ var elm$core$List$foldr = F3(
 	function (fn, acc, ls) {
 		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
 	});
+var elm$json$Json$Decode$field = _Json_decodeField;
+var elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3(elm$core$List$foldr, elm$json$Json$Decode$field, decoder, fields);
+	});
+var elm$json$Json$Decode$string = _Json_decodeString;
+var elm$html$Html$Events$targetValue = A2(
+	elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	elm$json$Json$Decode$string);
+var elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			elm$json$Json$Decode$map,
+			elm$html$Html$Events$alwaysStop,
+			A2(elm$json$Json$Decode$map, tagger, elm$html$Html$Events$targetValue)));
+};
+var author$project$UserInput$view = function (model) {
+	return A2(
+		elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				elm$html$Html$input,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$placeholder('Type text heerwe'),
+						elm$html$Html$Events$onInput(author$project$UserInput$Text)
+					]),
+				_List_Nil),
+				A2(
+				elm$html$Html$div,
+				_List_fromArray(
+					[
+						author$project$UserInput$adjustSize(model)
+					]),
+				_List_fromArray(
+					[
+						elm$html$Html$text(model.text)
+					]))
+			]));
+};
+var elm$core$Platform$Cmd$batch = _Platform_batch;
+var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
+var elm$core$Platform$Sub$batch = _Platform_batch;
+var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
+var elm$browser$Browser$External = function (a) {
+	return {$: 'External', a: a};
+};
+var elm$browser$Browser$Internal = function (a) {
+	return {$: 'Internal', a: a};
+};
+var elm$browser$Browser$Dom$NotFound = function (a) {
+	return {$: 'NotFound', a: a};
+};
+var elm$core$Basics$never = function (_n0) {
+	never:
+	while (true) {
+		var nvr = _n0.a;
+		var $temp$_n0 = nvr;
+		_n0 = $temp$_n0;
+		continue never;
+	}
+};
+var elm$core$Task$Perform = function (a) {
+	return {$: 'Perform', a: a};
+};
+var elm$core$Task$succeed = _Scheduler_succeed;
+var elm$core$Task$init = elm$core$Task$succeed(_Utils_Tuple0);
 var elm$core$List$map = F2(
 	function (f, xs) {
 		return A3(
@@ -5105,7 +5067,7 @@ var elm$core$Task$perform = F2(
 			elm$core$Task$Perform(
 				A2(elm$core$Task$map, toMessage, task)));
 	});
-var elm$core$String$length = _String_length;
+var elm$core$String$slice = _String_slice;
 var elm$core$String$dropLeft = F2(
 	function (n, string) {
 		return (n < 1) ? string : A3(
@@ -5251,7 +5213,7 @@ var elm$browser$Browser$sandbox = function (impl) {
 			view: impl.view
 		});
 };
-var author$project$ArchitectedHello$main = elm$browser$Browser$sandbox(
-	{init: author$project$ArchitectedHello$init, update: author$project$ArchitectedHello$update, view: author$project$ArchitectedHello$view});
-_Platform_export({'ArchitectedHello':{'init':author$project$ArchitectedHello$main(
+var author$project$UserInput$main = elm$browser$Browser$sandbox(
+	{init: author$project$UserInput$init, update: author$project$UserInput$update, view: author$project$UserInput$view});
+_Platform_export({'UserInput':{'init':author$project$UserInput$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
