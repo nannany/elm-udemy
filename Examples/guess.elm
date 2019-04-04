@@ -10,17 +10,25 @@ main =
     Browser.sandbox { init = init, view = view, update = update }
 
 
+type alias RevealedWord =
+    { pos : Int, text : String }
+
+
+type alias Result =
+    { text : String, isCorrect : Bool }
+
+
 type alias Model =
     { word : String
     , guess : String
-    , revealedWord : { pos : Int, text : String }
-    , result : String
+    , revealedWord : RevealedWord
+    , result : Result
     }
 
 
 init : Model
 init =
-    Model "Saturday" "" { pos = 2, text = "S" } ""
+    Model "Saturday" "" { pos = 2, text = "S" } { text = "", isCorrect = False }
 
 
 type Msg
@@ -42,16 +50,16 @@ update msg model =
             { model | result = checkResult model }
 
 
-checkResult : Model -> String
-checkResult { word, guess } =
-    if word == guess then
-        "you got it"
+checkResult : Model -> Result
+checkResult { word, guess, result } =
+    if String.toLower word == String.toLower guess then
+        { result | text = "you got it ", isCorrect = True }
 
     else
-        "nope"
+        { result | text = "nope", isCorrect = False }
 
 
-revealAndIncrement : Model -> { pos : Int, text : String }
+revealAndIncrement : Model -> RevealedWord
 revealAndIncrement { revealedWord, word } =
     if revealedWord.text == word then
         revealedWord
@@ -62,19 +70,29 @@ revealAndIncrement { revealedWord, word } =
 
 genResult : Model -> Html Msg
 genResult { result } =
-    if String.length result < 1 then
+    if String.isEmpty result.text then
         div [] []
 
-    else if result == "nope" then
-        div [ style "color" "tomato" ] [ text result ]
-
     else
-        div [ style "color" "forestgreen" ] [ text result ]
+        let
+            color =
+                if result.isCorrect then
+                    "tomato"
+
+                else
+                    "forestgreen"
+        in
+        div [ style "color" color ] [ text result.text ]
+
+
+mainStyle : Attribute msg
+mainStyle =
+    style "fontFamily" "monospace"
 
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ mainStyle ]
         [ h2 []
             [ text
                 ("im thinking of a word that starts with"
@@ -85,8 +103,10 @@ view model =
                 )
             ]
         , input [ placeholder "type yorr guess", onInput Answer ] []
-        , button [ onClick Reveal ] [ text "hint button" ]
-        , button [ onClick Check ] [ text "submit answer" ]
+        , p []
+            [ button [ onClick Reveal ] [ text "hint button" ]
+            , button [ onClick Check ] [ text "submit answer" ]
+            ]
         , genResult model
         ]
 

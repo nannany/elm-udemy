@@ -793,66 +793,6 @@ function _Utils_ap(xs, ys)
 
 
 
-// MATH
-
-var _Basics_add = F2(function(a, b) { return a + b; });
-var _Basics_sub = F2(function(a, b) { return a - b; });
-var _Basics_mul = F2(function(a, b) { return a * b; });
-var _Basics_fdiv = F2(function(a, b) { return a / b; });
-var _Basics_idiv = F2(function(a, b) { return (a / b) | 0; });
-var _Basics_pow = F2(Math.pow);
-
-var _Basics_remainderBy = F2(function(b, a) { return a % b; });
-
-// https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf
-var _Basics_modBy = F2(function(modulus, x)
-{
-	var answer = x % modulus;
-	return modulus === 0
-		? _Debug_crash(11)
-		:
-	((answer > 0 && modulus < 0) || (answer < 0 && modulus > 0))
-		? answer + modulus
-		: answer;
-});
-
-
-// TRIGONOMETRY
-
-var _Basics_pi = Math.PI;
-var _Basics_e = Math.E;
-var _Basics_cos = Math.cos;
-var _Basics_sin = Math.sin;
-var _Basics_tan = Math.tan;
-var _Basics_acos = Math.acos;
-var _Basics_asin = Math.asin;
-var _Basics_atan = Math.atan;
-var _Basics_atan2 = F2(Math.atan2);
-
-
-// MORE MATH
-
-function _Basics_toFloat(x) { return x; }
-function _Basics_truncate(n) { return n | 0; }
-function _Basics_isInfinite(n) { return n === Infinity || n === -Infinity; }
-
-var _Basics_ceiling = Math.ceil;
-var _Basics_floor = Math.floor;
-var _Basics_round = Math.round;
-var _Basics_sqrt = Math.sqrt;
-var _Basics_log = Math.log;
-var _Basics_isNaN = isNaN;
-
-
-// BOOLEANS
-
-function _Basics_not(bool) { return !bool; }
-var _Basics_and = F2(function(a, b) { return a && b; });
-var _Basics_or  = F2(function(a, b) { return a || b; });
-var _Basics_xor = F2(function(a, b) { return a !== b; });
-
-
-
 var _String_cons = F2(function(chr, str)
 {
 	return chr + str;
@@ -1162,6 +1102,66 @@ function _String_fromList(chars)
 	return _List_toArray(chars).join('');
 }
 
+
+
+
+// MATH
+
+var _Basics_add = F2(function(a, b) { return a + b; });
+var _Basics_sub = F2(function(a, b) { return a - b; });
+var _Basics_mul = F2(function(a, b) { return a * b; });
+var _Basics_fdiv = F2(function(a, b) { return a / b; });
+var _Basics_idiv = F2(function(a, b) { return (a / b) | 0; });
+var _Basics_pow = F2(Math.pow);
+
+var _Basics_remainderBy = F2(function(b, a) { return a % b; });
+
+// https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf
+var _Basics_modBy = F2(function(modulus, x)
+{
+	var answer = x % modulus;
+	return modulus === 0
+		? _Debug_crash(11)
+		:
+	((answer > 0 && modulus < 0) || (answer < 0 && modulus > 0))
+		? answer + modulus
+		: answer;
+});
+
+
+// TRIGONOMETRY
+
+var _Basics_pi = Math.PI;
+var _Basics_e = Math.E;
+var _Basics_cos = Math.cos;
+var _Basics_sin = Math.sin;
+var _Basics_tan = Math.tan;
+var _Basics_acos = Math.acos;
+var _Basics_asin = Math.asin;
+var _Basics_atan = Math.atan;
+var _Basics_atan2 = F2(Math.atan2);
+
+
+// MORE MATH
+
+function _Basics_toFloat(x) { return x; }
+function _Basics_truncate(n) { return n | 0; }
+function _Basics_isInfinite(n) { return n === Infinity || n === -Infinity; }
+
+var _Basics_ceiling = Math.ceil;
+var _Basics_floor = Math.floor;
+var _Basics_round = Math.round;
+var _Basics_sqrt = Math.sqrt;
+var _Basics_log = Math.log;
+var _Basics_isNaN = isNaN;
+
+
+// BOOLEANS
+
+function _Basics_not(bool) { return !bool; }
+var _Basics_and = F2(function(a, b) { return a && b; });
+var _Basics_or  = F2(function(a, b) { return a || b; });
+var _Basics_xor = F2(function(a, b) { return a !== b; });
 
 
 
@@ -4314,12 +4314,14 @@ var author$project$Guess$Model = F4(
 	function (word, guess, revealedWord, result) {
 		return {guess: guess, result: result, revealedWord: revealedWord, word: word};
 	});
+var elm$core$Basics$False = {$: 'False'};
 var author$project$Guess$init = A4(
 	author$project$Guess$Model,
 	'Saturday',
 	'',
 	{pos: 2, text: 'S'},
-	'');
+	{isCorrect: false, text: ''});
+var elm$core$Basics$True = {$: 'True'};
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -4401,16 +4403,24 @@ var elm$core$Set$toList = function (_n0) {
 	return elm$core$Dict$keys(dict);
 };
 var elm$core$Basics$eq = _Utils_equal;
-var author$project$Guess$checkResult = function (_n0) {
-	var word = _n0.word;
-	var guess = _n0.guess;
-	return _Utils_eq(word, guess) ? 'you got it' : 'nope';
-};
-var elm$core$Basics$add = _Basics_add;
 var elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
 };
 var elm$core$Maybe$Nothing = {$: 'Nothing'};
+var elm$core$String$toLower = _String_toLower;
+var author$project$Guess$checkResult = function (_n0) {
+	var word = _n0.word;
+	var guess = _n0.guess;
+	var result = _n0.result;
+	return _Utils_eq(
+		elm$core$String$toLower(word),
+		elm$core$String$toLower(guess)) ? _Utils_update(
+		result,
+		{isCorrect: true, text: 'you got it '}) : _Utils_update(
+		result,
+		{isCorrect: false, text: 'nope'});
+};
+var elm$core$Basics$add = _Basics_add;
 var elm$core$String$slice = _String_slice;
 var author$project$Guess$revealAndIncrement = function (_n0) {
 	var revealedWord = _n0.revealedWord;
@@ -4449,13 +4459,12 @@ var author$project$Guess$Answer = function (a) {
 };
 var author$project$Guess$Check = {$: 'Check'};
 var author$project$Guess$Reveal = {$: 'Reveal'};
-var elm$core$Basics$lt = _Utils_lt;
-var elm$core$String$length = _String_length;
+var elm$core$String$isEmpty = function (string) {
+	return string === '';
+};
 var elm$core$Basics$identity = function (x) {
 	return x;
 };
-var elm$core$Basics$False = {$: 'False'};
-var elm$core$Basics$True = {$: 'True'};
 var elm$core$Result$isOk = function (result) {
 	if (result.$ === 'Ok') {
 		return true;
@@ -4591,6 +4600,7 @@ var elm$core$Array$builderToArray = F2(
 		}
 	});
 var elm$core$Basics$idiv = _Basics_idiv;
+var elm$core$Basics$lt = _Utils_lt;
 var elm$core$Elm$JsArray$initialize = _JsArray_initialize;
 var elm$core$Array$initializeHelp = F5(
 	function (fn, fromIndex, len, nodeList, tail) {
@@ -4864,29 +4874,28 @@ var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
 var author$project$Guess$genResult = function (_n0) {
 	var result = _n0.result;
-	return (elm$core$String$length(result) < 1) ? A2(elm$html$Html$div, _List_Nil, _List_Nil) : ((result === 'nope') ? A2(
-		elm$html$Html$div,
-		_List_fromArray(
-			[
-				A2(elm$html$Html$Attributes$style, 'color', 'tomato')
-			]),
-		_List_fromArray(
-			[
-				elm$html$Html$text(result)
-			])) : A2(
-		elm$html$Html$div,
-		_List_fromArray(
-			[
-				A2(elm$html$Html$Attributes$style, 'color', 'forestgreen')
-			]),
-		_List_fromArray(
-			[
-				elm$html$Html$text(result)
-			])));
+	if (elm$core$String$isEmpty(result.text)) {
+		return A2(elm$html$Html$div, _List_Nil, _List_Nil);
+	} else {
+		var color = result.isCorrect ? 'tomato' : 'forestgreen';
+		return A2(
+			elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2(elm$html$Html$Attributes$style, 'color', color)
+				]),
+			_List_fromArray(
+				[
+					elm$html$Html$text(result.text)
+				]));
+	}
 };
+var author$project$Guess$mainStyle = A2(elm$html$Html$Attributes$style, 'fontFamily', 'monospace');
+var elm$core$String$length = _String_length;
 var elm$html$Html$button = _VirtualDom_node('button');
 var elm$html$Html$h2 = _VirtualDom_node('h2');
 var elm$html$Html$input = _VirtualDom_node('input');
+var elm$html$Html$p = _VirtualDom_node('p');
 var elm$json$Json$Encode$string = _Json_wrap;
 var elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5004,7 +5013,8 @@ var elm$html$Html$Events$onInput = function (tagger) {
 var author$project$Guess$view = function (model) {
 	return A2(
 		elm$html$Html$div,
-		_List_Nil,
+		_List_fromArray(
+			[author$project$Guess$mainStyle]),
 		_List_fromArray(
 			[
 				A2(
@@ -5025,24 +5035,30 @@ var author$project$Guess$view = function (model) {
 					]),
 				_List_Nil),
 				A2(
-				elm$html$Html$button,
+				elm$html$Html$p,
+				_List_Nil,
 				_List_fromArray(
 					[
-						elm$html$Html$Events$onClick(author$project$Guess$Reveal)
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('hint button')
-					])),
-				A2(
-				elm$html$Html$button,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onClick(author$project$Guess$Check)
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('submit answer')
+						A2(
+						elm$html$Html$button,
+						_List_fromArray(
+							[
+								elm$html$Html$Events$onClick(author$project$Guess$Reveal)
+							]),
+						_List_fromArray(
+							[
+								elm$html$Html$text('hint button')
+							])),
+						A2(
+						elm$html$Html$button,
+						_List_fromArray(
+							[
+								elm$html$Html$Events$onClick(author$project$Guess$Check)
+							]),
+						_List_fromArray(
+							[
+								elm$html$Html$text('submit answer')
+							]))
 					])),
 				author$project$Guess$genResult(model)
 			]));
@@ -5174,9 +5190,6 @@ var elm$core$String$startsWith = _String_startsWith;
 var elm$url$Url$Http = {$: 'Http'};
 var elm$url$Url$Https = {$: 'Https'};
 var elm$core$String$indexes = _String_indexes;
-var elm$core$String$isEmpty = function (string) {
-	return string === '';
-};
 var elm$core$String$left = F2(
 	function (n, string) {
 		return (n < 1) ? '' : A3(elm$core$String$slice, 0, n, string);
