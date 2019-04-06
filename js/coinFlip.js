@@ -5157,7 +5157,7 @@ var author$project$CoinFlip$update = F2(
 						_Utils_Tuple2(50, true),
 						_List_fromArray(
 							[
-								_Utils_Tuple2(50, true)
+								_Utils_Tuple2(50, false)
 							]))));
 		} else {
 			var bool = msg.a;
@@ -5171,6 +5171,7 @@ var author$project$CoinFlip$update = F2(
 		}
 	});
 var author$project$CoinFlip$StartFlip = {$: 'StartFlip'};
+var elm$json$Json$Encode$string = _Json_wrap;
 var elm$json$Json$Decode$map = _Json_map1;
 var elm$json$Json$Decode$map2 = _Json_map2;
 var elm$json$Json$Decode$succeed = _Json_succeed;
@@ -5186,10 +5187,31 @@ var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
+var elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			elm$json$Json$Encode$string(string));
+	});
+var elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var author$project$CoinFlip$getImage = function (model) {
+	var imgURL = (model.side === 'heads') ? '../images/heads.jpeg' : '../images/tails.jpeg';
+	return elm$html$Html$Attributes$src(imgURL);
+};
+var elm$html$Html$br = _VirtualDom_node('br');
 var elm$html$Html$button = _VirtualDom_node('button');
 var elm$html$Html$div = _VirtualDom_node('div');
+var elm$html$Html$img = _VirtualDom_node('img');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
+var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
 var elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -5210,9 +5232,23 @@ var elm$html$Html$Events$onClick = function (msg) {
 var author$project$CoinFlip$view = function (model) {
 	return A2(
 		elm$html$Html$div,
-		_List_Nil,
 		_List_fromArray(
 			[
+				A2(elm$html$Html$Attributes$style, 'fontsize', '4em'),
+				A2(elm$html$Html$Attributes$style, 'textAlign', 'center')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				elm$html$Html$img,
+				_List_fromArray(
+					[
+						author$project$CoinFlip$getImage(model),
+						A2(elm$html$Html$Attributes$style, 'height', '100px'),
+						A2(elm$html$Html$Attributes$style, 'width', '150px')
+					]),
+				_List_Nil),
+				A2(elm$html$Html$br, _List_Nil, _List_Nil),
 				elm$html$Html$text('the result is:' + model.side),
 				A2(
 				elm$html$Html$div,

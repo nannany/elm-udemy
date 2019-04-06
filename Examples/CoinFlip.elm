@@ -2,6 +2,7 @@ module CoinFlip exposing (Model, main)
 
 import Browser
 import Html exposing (..)
+import Html.Attributes exposing (src, style)
 import Html.Events exposing (..)
 import Random
 
@@ -20,12 +21,14 @@ main =
 
 
 type alias Model =
-    { side : String }
+    { side : String
+    , number : Int
+    }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model "Heads", Cmd.none )
+    ( Model "Heads" 0, Cmd.none )
 
 
 
@@ -35,6 +38,8 @@ init _ =
 type Msg
     = StartFlip
     | GenerateFlip Bool
+    | GetNum
+    | GenerateNum Int
 
 
 
@@ -49,6 +54,12 @@ update msg model =
 
         GenerateFlip bool ->
             ( { model | side = generateSide bool }, Cmd.none )
+
+        GetNum ->
+            ( model, Random.generate GenerateNum (Random.int 1 100) )
+
+        GenerateNum num ->
+            ( { model | number = num }, Cmd.none )
 
 
 generateSide : Bool -> String
@@ -73,11 +84,40 @@ subscriptions model =
 -- veiw
 
 
+getImage : Model -> Attribute msg
+getImage model =
+    let
+        imgURL =
+            if model.side == "heads" then
+                "../images/heads.jpeg"
+
+            else
+                "../images/tails.jpeg"
+    in
+    src imgURL
+
+
 view : Model -> Html Msg
 view model =
-    div []
-        [ text ("the result is:" ++ model.side)
+    div
+        [ style "fontsize" "4em"
+        , style "textAlign" "center"
+        ]
+        [ img
+            [ getImage model
+            , style "height" "100px"
+            , style "width" "150px"
+            ]
+            []
+        , br [] []
+        , text ("the result is:" ++ model.side)
         , div []
             [ button [ onClick StartFlip ] [ text "Flip" ]
+            ]
+        , div [] 
+            [
+                text ("random number is: " ++ String.fromInt model.number)
+                , br [] [] 
+                , button [onClick GetNum] [ text "Generate number"]
             ]
         ]
