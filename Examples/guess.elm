@@ -23,18 +23,25 @@ type alias Model =
     , guess : String
     , revealedWord : RevealedWord
     , result : Result
+    , wordList : List String
     }
+
+
+initialWordList : List String
+initialWordList =
+    [ "Banana", "Kitten", "paperclip", "orangutan", "italic", "afternoo" ]
 
 
 init : Model
 init =
-    Model "Saturday" "" { pos = 2, text = "S" } { text = "", isCorrect = False }
+    Model "Saturday" "" { pos = 2, text = "S" } { text = "", isCorrect = False } initialWordList
 
 
 type Msg
     = Answer String
     | Reveal
     | Check
+    | Another
 
 
 update : Msg -> Model -> Model
@@ -48,6 +55,26 @@ update msg model =
 
         Check ->
             { model | result = checkResult model }
+
+        Another ->
+            let
+                newWord =
+                    getNewWord model
+            in
+            { model
+                | word = newWord
+                , guess = ""
+                , revealedWord = { pos = 2, text = String.slice 0 1 newWord }
+                , wordList = List.drop 1 model.wordList
+            }
+
+
+getNewWord : Model -> String
+getNewWord {wordList, word} =
+    wordList 
+        |>  List.filter (\a -> a /= word) 
+        |> List.take 1
+        |> String.concat
 
 
 checkResult : Model -> Result
@@ -106,6 +133,7 @@ view model =
         , p []
             [ button [ onClick Reveal ] [ text "hint button" ]
             , button [ onClick Check ] [ text "submit answer" ]
+            , button [ onClick Another ] [ text "another word " ]
             ]
         , genResult model
         ]

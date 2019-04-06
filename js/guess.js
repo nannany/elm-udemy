@@ -232,87 +232,6 @@ var _JsArray_appendN = F3(function(n, dest, source)
 
 
 
-var _List_Nil_UNUSED = { $: 0 };
-var _List_Nil = { $: '[]' };
-
-function _List_Cons_UNUSED(hd, tl) { return { $: 1, a: hd, b: tl }; }
-function _List_Cons(hd, tl) { return { $: '::', a: hd, b: tl }; }
-
-
-var _List_cons = F2(_List_Cons);
-
-function _List_fromArray(arr)
-{
-	var out = _List_Nil;
-	for (var i = arr.length; i--; )
-	{
-		out = _List_Cons(arr[i], out);
-	}
-	return out;
-}
-
-function _List_toArray(xs)
-{
-	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
-	{
-		out.push(xs.a);
-	}
-	return out;
-}
-
-var _List_map2 = F3(function(f, xs, ys)
-{
-	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
-	{
-		arr.push(A2(f, xs.a, ys.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map3 = F4(function(f, xs, ys, zs)
-{
-	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A3(f, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map4 = F5(function(f, ws, xs, ys, zs)
-{
-	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
-{
-	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_sortBy = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		return _Utils_cmp(f(a), f(b));
-	}));
-});
-
-var _List_sortWith = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		var ord = A2(f, a, b);
-		return ord === elm$core$Basics$EQ ? 0 : ord === elm$core$Basics$LT ? -1 : 1;
-	}));
-});
-
-
-
 // LOG
 
 var _Debug_log_UNUSED = F2(function(tag, value)
@@ -790,6 +709,87 @@ function _Utils_ap(xs, ys)
 	}
 	return root;
 }
+
+
+
+var _List_Nil_UNUSED = { $: 0 };
+var _List_Nil = { $: '[]' };
+
+function _List_Cons_UNUSED(hd, tl) { return { $: 1, a: hd, b: tl }; }
+function _List_Cons(hd, tl) { return { $: '::', a: hd, b: tl }; }
+
+
+var _List_cons = F2(_List_Cons);
+
+function _List_fromArray(arr)
+{
+	var out = _List_Nil;
+	for (var i = arr.length; i--; )
+	{
+		out = _List_Cons(arr[i], out);
+	}
+	return out;
+}
+
+function _List_toArray(xs)
+{
+	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
+	{
+		out.push(xs.a);
+	}
+	return out;
+}
+
+var _List_map2 = F3(function(f, xs, ys)
+{
+	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
+	{
+		arr.push(A2(f, xs.a, ys.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map3 = F4(function(f, xs, ys, zs)
+{
+	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A3(f, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map4 = F5(function(f, ws, xs, ys, zs)
+{
+	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
+{
+	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_sortBy = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		return _Utils_cmp(f(a), f(b));
+	}));
+});
+
+var _List_sortWith = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		var ord = A2(f, a, b);
+		return ord === elm$core$Basics$EQ ? 0 : ord === elm$core$Basics$LT ? -1 : 1;
+	}));
+});
 
 
 
@@ -4310,18 +4310,12 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Guess$Model = F4(
-	function (word, guess, revealedWord, result) {
-		return {guess: guess, result: result, revealedWord: revealedWord, word: word};
+var author$project$Guess$Model = F5(
+	function (word, guess, revealedWord, result, wordList) {
+		return {guess: guess, result: result, revealedWord: revealedWord, word: word, wordList: wordList};
 	});
-var elm$core$Basics$False = {$: 'False'};
-var author$project$Guess$init = A4(
-	author$project$Guess$Model,
-	'Saturday',
-	'',
-	{pos: 2, text: 'S'},
-	{isCorrect: false, text: ''});
-var elm$core$Basics$True = {$: 'True'};
+var elm$core$Basics$EQ = {$: 'EQ'};
+var elm$core$Basics$LT = {$: 'LT'};
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -4343,8 +4337,6 @@ var elm$core$Array$foldr = F3(
 			A3(elm$core$Elm$JsArray$foldr, func, baseCase, tail),
 			tree);
 	});
-var elm$core$Basics$EQ = {$: 'EQ'};
-var elm$core$Basics$LT = {$: 'LT'};
 var elm$core$List$cons = _List_cons;
 var elm$core$Array$toList = function (array) {
 	return A3(elm$core$Array$foldr, elm$core$List$cons, _List_Nil, array);
@@ -4402,6 +4394,17 @@ var elm$core$Set$toList = function (_n0) {
 	var dict = _n0.a;
 	return elm$core$Dict$keys(dict);
 };
+var author$project$Guess$initialWordList = _List_fromArray(
+	['Banana', 'Kitten', 'paperclip', 'orangutan', 'italic', 'afternoo']);
+var elm$core$Basics$False = {$: 'False'};
+var author$project$Guess$init = A5(
+	author$project$Guess$Model,
+	'Saturday',
+	'',
+	{pos: 2, text: 'S'},
+	{isCorrect: false, text: ''},
+	author$project$Guess$initialWordList);
+var elm$core$Basics$True = {$: 'True'};
 var elm$core$Basics$eq = _Utils_equal;
 var elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
@@ -4420,7 +4423,253 @@ var author$project$Guess$checkResult = function (_n0) {
 		result,
 		{isCorrect: false, text: 'nope'});
 };
+var elm$core$Basics$apR = F2(
+	function (x, f) {
+		return f(x);
+	});
+var elm$core$Basics$neq = _Utils_notEqual;
 var elm$core$Basics$add = _Basics_add;
+var elm$core$Basics$gt = _Utils_gt;
+var elm$core$List$foldl = F3(
+	function (func, acc, list) {
+		foldl:
+		while (true) {
+			if (!list.b) {
+				return acc;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				var $temp$func = func,
+					$temp$acc = A2(func, x, acc),
+					$temp$list = xs;
+				func = $temp$func;
+				acc = $temp$acc;
+				list = $temp$list;
+				continue foldl;
+			}
+		}
+	});
+var elm$core$List$reverse = function (list) {
+	return A3(elm$core$List$foldl, elm$core$List$cons, _List_Nil, list);
+};
+var elm$core$List$foldrHelper = F4(
+	function (fn, acc, ctr, ls) {
+		if (!ls.b) {
+			return acc;
+		} else {
+			var a = ls.a;
+			var r1 = ls.b;
+			if (!r1.b) {
+				return A2(fn, a, acc);
+			} else {
+				var b = r1.a;
+				var r2 = r1.b;
+				if (!r2.b) {
+					return A2(
+						fn,
+						a,
+						A2(fn, b, acc));
+				} else {
+					var c = r2.a;
+					var r3 = r2.b;
+					if (!r3.b) {
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(fn, c, acc)));
+					} else {
+						var d = r3.a;
+						var r4 = r3.b;
+						var res = (ctr > 500) ? A3(
+							elm$core$List$foldl,
+							fn,
+							acc,
+							elm$core$List$reverse(r4)) : A4(elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(
+									fn,
+									c,
+									A2(fn, d, res))));
+					}
+				}
+			}
+		}
+	});
+var elm$core$List$foldr = F3(
+	function (fn, acc, ls) {
+		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
+	});
+var elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2(elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var elm$core$Basics$le = _Utils_le;
+var elm$core$Basics$sub = _Basics_sub;
+var elm$core$List$takeReverse = F3(
+	function (n, list, kept) {
+		takeReverse:
+		while (true) {
+			if (n <= 0) {
+				return kept;
+			} else {
+				if (!list.b) {
+					return kept;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs,
+						$temp$kept = A2(elm$core$List$cons, x, kept);
+					n = $temp$n;
+					list = $temp$list;
+					kept = $temp$kept;
+					continue takeReverse;
+				}
+			}
+		}
+	});
+var elm$core$List$takeTailRec = F2(
+	function (n, list) {
+		return elm$core$List$reverse(
+			A3(elm$core$List$takeReverse, n, list, _List_Nil));
+	});
+var elm$core$List$takeFast = F3(
+	function (ctr, n, list) {
+		if (n <= 0) {
+			return _List_Nil;
+		} else {
+			var _n0 = _Utils_Tuple2(n, list);
+			_n0$1:
+			while (true) {
+				_n0$5:
+				while (true) {
+					if (!_n0.b.b) {
+						return list;
+					} else {
+						if (_n0.b.b.b) {
+							switch (_n0.a) {
+								case 1:
+									break _n0$1;
+								case 2:
+									var _n2 = _n0.b;
+									var x = _n2.a;
+									var _n3 = _n2.b;
+									var y = _n3.a;
+									return _List_fromArray(
+										[x, y]);
+								case 3:
+									if (_n0.b.b.b.b) {
+										var _n4 = _n0.b;
+										var x = _n4.a;
+										var _n5 = _n4.b;
+										var y = _n5.a;
+										var _n6 = _n5.b;
+										var z = _n6.a;
+										return _List_fromArray(
+											[x, y, z]);
+									} else {
+										break _n0$5;
+									}
+								default:
+									if (_n0.b.b.b.b && _n0.b.b.b.b.b) {
+										var _n7 = _n0.b;
+										var x = _n7.a;
+										var _n8 = _n7.b;
+										var y = _n8.a;
+										var _n9 = _n8.b;
+										var z = _n9.a;
+										var _n10 = _n9.b;
+										var w = _n10.a;
+										var tl = _n10.b;
+										return (ctr > 1000) ? A2(
+											elm$core$List$cons,
+											x,
+											A2(
+												elm$core$List$cons,
+												y,
+												A2(
+													elm$core$List$cons,
+													z,
+													A2(
+														elm$core$List$cons,
+														w,
+														A2(elm$core$List$takeTailRec, n - 4, tl))))) : A2(
+											elm$core$List$cons,
+											x,
+											A2(
+												elm$core$List$cons,
+												y,
+												A2(
+													elm$core$List$cons,
+													z,
+													A2(
+														elm$core$List$cons,
+														w,
+														A3(elm$core$List$takeFast, ctr + 1, n - 4, tl)))));
+									} else {
+										break _n0$5;
+									}
+							}
+						} else {
+							if (_n0.a === 1) {
+								break _n0$1;
+							} else {
+								break _n0$5;
+							}
+						}
+					}
+				}
+				return list;
+			}
+			var _n1 = _n0.b;
+			var x = _n1.a;
+			return _List_fromArray(
+				[x]);
+		}
+	});
+var elm$core$List$take = F2(
+	function (n, list) {
+		return A3(elm$core$List$takeFast, 0, n, list);
+	});
+var elm$core$String$join = F2(
+	function (sep, chunks) {
+		return A2(
+			_String_join,
+			sep,
+			_List_toArray(chunks));
+	});
+var elm$core$String$concat = function (strings) {
+	return A2(elm$core$String$join, '', strings);
+};
+var author$project$Guess$getNewWord = function (_n0) {
+	var wordList = _n0.wordList;
+	var word = _n0.word;
+	return elm$core$String$concat(
+		A2(
+			elm$core$List$take,
+			1,
+			A2(
+				elm$core$List$filter,
+				function (a) {
+					return !_Utils_eq(a, word);
+				},
+				wordList)));
+};
 var elm$core$String$slice = _String_slice;
 var author$project$Guess$revealAndIncrement = function (_n0) {
 	var revealedWord = _n0.revealedWord;
@@ -4432,6 +4681,27 @@ var author$project$Guess$revealAndIncrement = function (_n0) {
 			text: A3(elm$core$String$slice, 0, revealedWord.pos, word)
 		});
 };
+var elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
 var author$project$Guess$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -4446,14 +4716,28 @@ var author$project$Guess$update = F2(
 					{
 						revealedWord: author$project$Guess$revealAndIncrement(model)
 					});
-			default:
+			case 'Check':
 				return _Utils_update(
 					model,
 					{
 						result: author$project$Guess$checkResult(model)
 					});
+			default:
+				var newWord = author$project$Guess$getNewWord(model);
+				return _Utils_update(
+					model,
+					{
+						guess: '',
+						revealedWord: {
+							pos: 2,
+							text: A3(elm$core$String$slice, 0, 1, newWord)
+						},
+						word: newWord,
+						wordList: A2(elm$core$List$drop, 1, model.wordList)
+					});
 		}
 	});
+var author$project$Guess$Another = {$: 'Another'};
 var author$project$Guess$Answer = function (a) {
 	return {$: 'Answer', a: a};
 };
@@ -4495,28 +4779,6 @@ var elm$core$Array$SubTree = function (a) {
 	return {$: 'SubTree', a: a};
 };
 var elm$core$Elm$JsArray$initializeFromList = _JsArray_initializeFromList;
-var elm$core$List$foldl = F3(
-	function (func, acc, list) {
-		foldl:
-		while (true) {
-			if (!list.b) {
-				return acc;
-			} else {
-				var x = list.a;
-				var xs = list.b;
-				var $temp$func = func,
-					$temp$acc = A2(func, x, acc),
-					$temp$list = xs;
-				func = $temp$func;
-				acc = $temp$acc;
-				list = $temp$list;
-				continue foldl;
-			}
-		}
-	});
-var elm$core$List$reverse = function (list) {
-	return A3(elm$core$List$foldl, elm$core$List$cons, _List_Nil, list);
-};
 var elm$core$Array$compressNodes = F2(
 	function (nodes, acc) {
 		compressNodes:
@@ -4538,10 +4800,6 @@ var elm$core$Array$compressNodes = F2(
 				continue compressNodes;
 			}
 		}
-	});
-var elm$core$Basics$apR = F2(
-	function (x, f) {
-		return f(x);
 	});
 var elm$core$Tuple$first = function (_n0) {
 	var x = _n0.a;
@@ -4568,13 +4826,11 @@ var elm$core$Basics$apL = F2(
 		return f(x);
 	});
 var elm$core$Basics$floor = _Basics_floor;
-var elm$core$Basics$gt = _Utils_gt;
 var elm$core$Basics$max = F2(
 	function (x, y) {
 		return (_Utils_cmp(x, y) > 0) ? x : y;
 	});
 var elm$core$Basics$mul = _Basics_mul;
-var elm$core$Basics$sub = _Basics_sub;
 var elm$core$Elm$JsArray$length = _JsArray_length;
 var elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
@@ -4628,7 +4884,6 @@ var elm$core$Array$initializeHelp = F5(
 			}
 		}
 	});
-var elm$core$Basics$le = _Utils_le;
 var elm$core$Basics$remainderBy = _Basics_remainderBy;
 var elm$core$Array$initialize = F2(
 	function (len, fn) {
@@ -4729,13 +4984,6 @@ var elm$core$List$indexedMap = F2(
 	});
 var elm$core$String$all = _String_all;
 var elm$core$String$fromInt = _String_fromNumber;
-var elm$core$String$join = F2(
-	function (sep, chunks) {
-		return A2(
-			_String_join,
-			sep,
-			_List_toArray(chunks));
-	});
 var elm$core$String$uncons = _String_uncons;
 var elm$core$String$split = F2(
 	function (sep, string) {
@@ -4935,61 +5183,6 @@ var elm$html$Html$Events$stopPropagationOn = F2(
 			event,
 			elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
 	});
-var elm$core$List$foldrHelper = F4(
-	function (fn, acc, ctr, ls) {
-		if (!ls.b) {
-			return acc;
-		} else {
-			var a = ls.a;
-			var r1 = ls.b;
-			if (!r1.b) {
-				return A2(fn, a, acc);
-			} else {
-				var b = r1.a;
-				var r2 = r1.b;
-				if (!r2.b) {
-					return A2(
-						fn,
-						a,
-						A2(fn, b, acc));
-				} else {
-					var c = r2.a;
-					var r3 = r2.b;
-					if (!r3.b) {
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(fn, c, acc)));
-					} else {
-						var d = r3.a;
-						var r4 = r3.b;
-						var res = (ctr > 500) ? A3(
-							elm$core$List$foldl,
-							fn,
-							acc,
-							elm$core$List$reverse(r4)) : A4(elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(
-									fn,
-									c,
-									A2(fn, d, res))));
-					}
-				}
-			}
-		}
-	});
-var elm$core$List$foldr = F3(
-	function (fn, acc, ls) {
-		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
-	});
 var elm$json$Json$Decode$field = _Json_decodeField;
 var elm$json$Json$Decode$at = F2(
 	function (fields, decoder) {
@@ -5058,6 +5251,16 @@ var author$project$Guess$view = function (model) {
 						_List_fromArray(
 							[
 								elm$html$Html$text('submit answer')
+							])),
+						A2(
+						elm$html$Html$button,
+						_List_fromArray(
+							[
+								elm$html$Html$Events$onClick(author$project$Guess$Another)
+							]),
+						_List_fromArray(
+							[
+								elm$html$Html$text('another word ')
 							]))
 					])),
 				author$project$Guess$genResult(model)
